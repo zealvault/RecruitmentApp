@@ -1,8 +1,6 @@
 package repository;
 
 import com.mongodb.DB;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
 import model.Candidate;
 import model.Recruiter;
 import org.jongo.Jongo;
@@ -12,8 +10,11 @@ public class MongoRepository {
 
     private final MongoCollection collection;
 
-    public MongoRepository(String mongoClientUriPath, String databaseName, String collectionName) {
-        DB db = new MongoClient(new MongoClientURI(mongoClientUriPath)).getDB(databaseName);
+    public MongoCollection getCollection() {
+        return collection;
+    }
+
+    public MongoRepository( DB db,String collectionName) {
         Jongo jongo = new Jongo(db);
          this.collection = jongo.getCollection(collectionName);
     }

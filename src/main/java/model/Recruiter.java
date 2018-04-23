@@ -13,9 +13,6 @@ public class Recruiter {
 
     private List<Candidate> candidates;
 
-    public Recruiter() {
-    }
-
     public Recruiter(@JsonProperty("id") String id, @JsonProperty("name") String name) {
         this.id = id;
         this.name = name;
@@ -34,6 +31,7 @@ public class Recruiter {
         return candidates;
     }
 
+    //TODO understand and remove
     public Boolean addCandidate(Candidate aCandidate) {
         if(candidates.stream().filter( candidate -> candidate.getEmail() == aCandidate.getEmail()).findFirst().isPresent()){
             return false;

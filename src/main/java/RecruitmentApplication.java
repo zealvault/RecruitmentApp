@@ -5,13 +5,10 @@ import controller.CandidateController;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.jongo.Jongo;
-import org.jongo.MongoCollection;
 import repository.MongoRepository;
+import java.net.UnknownHostException;
 
 public class RecruitmentApplication extends Application<HelloWorldConfiguration> {
-
-
     public static void main(String[] args) throws Exception {
         new RecruitmentApplication().run(args);
     }
@@ -27,8 +24,11 @@ public class RecruitmentApplication extends Application<HelloWorldConfiguration>
     }
 
     @Override
-    public void run(HelloWorldConfiguration configuration, Environment environment) {
-        MongoRepository repo = new MongoRepository("mongodb://localhost:27017","database","recruiters");
+    public void run(HelloWorldConfiguration configuration, Environment environment) throws UnknownHostException {
+        String mongoClientUriPath = "mongodb://localhost:27017";
+        String databaseName = "database";
+        DB db = new MongoClient(new MongoClientURI(mongoClientUriPath)).getDB(databaseName);
+        MongoRepository repo = new MongoRepository(db,"recruiters");
         final CandidateController candidateController = new CandidateController(repo);
         environment.jersey().register(candidateController);
     }
